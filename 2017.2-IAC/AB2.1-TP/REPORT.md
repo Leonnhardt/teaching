@@ -3,9 +3,9 @@
 * Página do repositório do trabalho ([link GitHub](TODO)) 
 
 * Discente 1
-	* Nome: TODO
-	* Matrícula: TODO 
-	* Distribuição da nota (%): TODO
+	* Nome: David Silva Alexandre
+	* Matrícula: 17210807 
+	* Distribuição da nota (%): 33.3
 * Discente 2
 	* Nome: TODO
 	* Matrícula: TODO
