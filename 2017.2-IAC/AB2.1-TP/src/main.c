@@ -1,33 +1,59 @@
-#include <unistd.h> 
-#include <sys/types.h> 
-#include <sys/wait.h> 
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-int main (int argc, char *argv[], char *envp[]) {
-
-int pid ; /* identificador de processo */
-
-pid = fork () ; /* replicacção do processo */
-
-if ( pid < 0 ) { /* se o fork não funcionou */
-	perror ("Erro: ") ;
-	exit (-1) ; /* encerra o processo com código de erro -1 */ 
-}
-else if( pid > 0 ) /* se sou o processo pai*/ 
+long double contartempo()
 {
-	//TODO guarde a cada segundo o consumo de memória (em Kilobytes) e CPU (em porcentagem) do processo filho
-	//TODO após 10 segundos de execução, mate o proceso filho
+  	time_t timer;
+  	struct tm y2k = {0};
+  	long double seconds;
+  	y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
+  	y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+  	time(&timer);
+  	seconds = difftime(timer, mktime(&y2k));
+  	return seconds;
 }
-else /* senão, sou o processo filho (pid == 0) */ 
+
+void recursao(long double i, long double j, long double n)
 {
-	//TODO se argv[1] for igual a 'cpu', executar código com utilização intensa da UCP
-	//TODO se argv[1] for igual a 'cpu-mem', executar código com utilização intensa da UCP e da memória
-
+	i = contartempo();
+	if ( i == (j + 2) )
+	{
+		return;
+	}else
+	{
+		n += 10 * sizeof(int);
+		printf("%0.Lf bytes estão alocados.\n", n);
+		malloc( 10 * sizeof(int));
+	}
+	recursao(i, j, n);
 }
-perror ("Erro: ") ; /* execve nãoo funcionou */
 
-printf ("Tchau !\n") ;
-exit(0) ; /* encerra o processo com sucesso (código 0) */ 
-
+void main()
+{
+	unsigned long long int i, contador, qtd;
+	int oquefazer;
+	long double j;
+	j = contartempo();
+	printf("Digite 1 para executar um processo de leve utilização da memória e da CPU. Caso queira usar o máximo de ambas, digite 0:\n");
+	scanf("%d", &oquefazer);
+	if ( oquefazer == 1 )
+	{
+		recursao(0, j, 0);
+		return;
+	}else
+	{
+		for ( i = 0; i < 10; i = 0 )
+		{
+			contador = 0;
+			while( contador < 5 )
+			{
+				qtd += 200 * sizeof(int);
+				printf("Estão alocados: %lli bytes\n", qtd);
+				malloc(200 * sizeof(int));
+				contador ++;			
+			}
+		}
+	}
+	
 }
